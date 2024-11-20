@@ -12,6 +12,12 @@ def load_raw_csv(data_path):
     raw_data.LABEL = raw_data.LABEL.map(arg=target_map, na_action='ignore')
     return raw_data
 
+def sample_default(data_path=None):
+    data_path = DATA_PATH if data_path is None else data_path
+    raw_data = load_raw_csv(data_path)
+    row = np.random.choice(np.arange(0, len(raw_data)))
+    return raw_data.iloc[row, :-1]
+
 def train_val_test(data_path, proportions):
 
     assert sum(proportions) == 1.0
@@ -50,8 +56,9 @@ def preprocess_data(data_path=None, proportions=(0.6, 0.2, 0.2)):
 
     # # # following Note 1 in /analysis/feature_exploration.ipynb
     feature_transformer = RobustScaler()
-    X_train = feature_transformer.fit_transform(X_train)
-    X_val = feature_transformer.transform(X_val)
-    X_test = feature_transformer.transform(X_test)
-    return feature_transformer, (X_train, y_train), (X_val, y_val), (X_test, y_test)
+    X_train = feature_transformer.fit_transform(X_train.values)
+    X_val = feature_transformer.transform(X_val.values)
+    X_test = feature_transformer.transform(X_test.values)
+    return feature_transformer, (X_train, y_train.values), (X_val, y_val.values), (X_test, y_test.values)
+
 
