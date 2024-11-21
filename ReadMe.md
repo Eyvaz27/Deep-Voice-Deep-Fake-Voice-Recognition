@@ -4,20 +4,20 @@ During Mid-Term project of Machine Learning ZoomCamp I have build and deployed a
 
 Performance of tested algorithms:
 - Ridge Classifier: 
-                    {'accuracy_score': 0.8909168081494058,
-                    'precision_score': np.float64(0.8932773109243698),
-                    'recall_score': np.float64(0.8910310142497905),
-                    'f1_score': np.float64(0.8921527486361729)}
+    - 'accuracy_score': 0.890
+    - 'precision_score': 0.893
+    - 'recall_score': 0.891
+    - 'f1_score': 0.892
 - Support Vector Classifier:
-                    {'accuracy_score': 0.984295415959253,
-                    'precision_score': np.float64(0.9824707846410684),
-                    'recall_score': np.float64(0.9865884325230512),
-                    'f1_score': np.float64(0.9845253032204099)}
+    - 'accuracy_score': 0.984
+    - 'precision_score': 0.982
+    - 'recall_score': 0.986
+    - 'f1_score': 0.984
 - Gradient Boosting Classifier:
-                    {'accuracy_score': 0.9881154499151104,
-                    'precision_score': np.float64(0.9890848026868178),
-                    'recall_score': np.float64(0.9874266554903605),
-                    'f1_score': np.float64(0.988255033557047)}
+    - 'accuracy_score': 0.988
+    - 'precision_score': 0.989
+    - 'recall_score': 0.987
+    - 'f1_score': 0.988
 
 How to run the .ipynb files, you will need to follow the steps below:
 - build virtual environment via pipenv
@@ -29,6 +29,7 @@ How to deploy the model with Docker container:
 - docker build --force-rm -t deepvoice -f Dockerfile .
 - docker run -it --rm -p 9696:9696 deepvoice
 - change visibility of port 9696 to public under 'PORTS' in VS code
+- change 'url' in /src/client.py to the Forwarded Address connected to port 9696
 - test pipeline from client side by running cd /src/ && python -m client
 
 References:
