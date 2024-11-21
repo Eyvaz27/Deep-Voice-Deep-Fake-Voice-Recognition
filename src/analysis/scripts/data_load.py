@@ -4,7 +4,8 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
 
 SEED = 42
-DATA_PATH = "/workspaces/Deep-Voice-Deep-Fake-Voice-Recognition/dataset/deep_voice.csv"
+LOCAL_DATA_PATH = "/workspaces/Deep-Voice-Deep-Fake-Voice-Recognition/dataset/deep_voice.csv"
+SERVER_DATA_PATH = "/app/dataset/deep_voice.csv"
 
 def load_raw_csv(data_path):
     raw_data = pd.read_csv(filepath_or_buffer=data_path)
@@ -13,7 +14,7 @@ def load_raw_csv(data_path):
     return raw_data
 
 def sample_default(data_path=None):
-    data_path = DATA_PATH if data_path is None else data_path
+    data_path = LOCAL_DATA_PATH if data_path is None else data_path
     raw_data = load_raw_csv(data_path)
     row = np.random.choice(np.arange(0, len(raw_data)))
     return raw_data.iloc[row, :-1]
@@ -50,15 +51,15 @@ def train_val_test(data_path, proportions):
     return (X_train, y_train), (X_val, y_val), (X_test, y_test)
 
 def preprocess_data(data_path=None, proportions=(0.6, 0.2, 0.2)):
-    data_path = DATA_PATH if data_path is None else data_path
+    data_path = LOCAL_DATA_PATH if data_path is None else data_path
     train, val, test = train_val_test(data_path, proportions)
     (X_train, y_train), (X_val, y_val), (X_test, y_test) = train, val, test
 
     # # # following Note 1 in /analysis/feature_exploration.ipynb
     feature_transformer = RobustScaler()
-    X_train = feature_transformer.fit_transform(X_train.values)
-    X_val = feature_transformer.transform(X_val.values)
-    X_test = feature_transformer.transform(X_test.values)
-    return feature_transformer, (X_train, y_train.values), (X_val, y_val.values), (X_test, y_test.values)
+    X_train = feature_transformer.fit_transform(X_train)
+    X_val = feature_transformer.transform(X_val)
+    X_test = feature_transformer.transform(X_test)
+    return feature_transformer, (X_train, y_train), (X_val, y_val), (X_test, y_test)
 
 
